@@ -25,7 +25,6 @@ public class GameListService {
 
     @Transactional(readOnly = true)
     public Iterable<GameMinDTO> findByList(Long listId) {
-        var result = gameListRepository.searchByList(listId);
-        return result;
+        return gameListRepository.searchByList(listId);
     }
 }
