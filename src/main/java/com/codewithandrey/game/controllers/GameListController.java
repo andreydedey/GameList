@@ -2,6 +2,7 @@ package com.codewithandrey.game.controllers;
 
 import com.codewithandrey.game.dto.GameListDto;
 import com.codewithandrey.game.dto.GameMinDTO;
+import com.codewithandrey.game.dto.ReplaceGameRequest;
 import com.codewithandrey.game.services.GameListService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,19 @@ public class GameListController {
     }
 
     @GetMapping("{id}/games")
-    public ResponseEntity<Iterable<GameMinDTO>> findAll(
+    public ResponseEntity<Iterable<GameMinDTO>> findByList(
             @PathVariable (name = "id") Long id
     ) {
         var result = gameListService.findByList(id);
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("{id}/move")
+    public ResponseEntity<Void> moveGame(
+            @PathVariable (name = "id") Long listId,
+            @RequestBody ReplaceGameRequest body
+    ) {
+        gameListService.move(listId, body.getSourceIndex(), body.getDestinationIndex());
+        return ResponseEntity.ok().build();
+    }
 }

@@ -2,8 +2,7 @@ package com.codewithandrey.game.repositories;
 
 import com.codewithandrey.game.dto.GameMinDTO;
 import com.codewithandrey.game.entities.GameList;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -19,4 +18,7 @@ public interface GameListRepository extends JpaRepository<GameList, Long> {
 """)
     List<GameMinDTO> searchByList(@Param("listId") Long listId);
 
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE tb_belonging SET position = :newPosition WHERE list_id = :listId AND game_id = :gameId")
+    void updateBelongingPosition(Long listId, Long gameId, Integer newPosition);
 }
